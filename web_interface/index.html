@@ -2,75 +2,97 @@
 <html>
 <head>
   <title>jVectorMap demo</title>
-  <link rel="stylesheet" href="css/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
-  <script src="js/jquery.js"></script>
-  <script src="js/jquery-jvectormap-2.0.3.min.js"></script>
-  <script src="js/jquery-jvectormap-us-aea.js"></script>
+  <!-- <link rel="stylesheet" href="css/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/> -->
+  <!-- <script src="js/jquery.js"></script> -->
+  <!-- <script src="js/jquery-jvectormap-2.0.3.min.js"></script>
+  <script src="js/jquery-jvectormap-us-aea.js"></script> -->
+
+  <!-- The following imports are for amchars, which provides county level map within the package itself -->
+  <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/maps.js"></script>
+  <!-- <script src="https://www.amcharts.com/lib/4/geodata/region/usa/usaCountiesLow.js"></script> -->
+  <!-- <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script> -->
+  <script src="https://www.amcharts.com/lib/4/geodata/region/usa/caLow.js"></script>
+  <script src="https://www.amcharts.com/lib/4/geodata/region/usa/usaCountiesLow.js"></script>
 </head>
 <body>
-  <div id="us-map" style="width: 600px; height: 400px"></div>
+  <!-- <div id="us-map" style="width: 600px; height: 400px"></div> -->
+  <!-- <iframe src="https://www.google.co.uk/maps/d/embed?mid=10K_TEHSpOE7a3FqN4r651Mx7_CwWvCmp" width="640" height="480"></iframe> -->
+  <div id="chartdiv" style="width: 600px; height: 400px"></div>
   <script>
-    $(function(){
-        var GE_testing_data = { 'US-AL': '2009             2.7129',
-            'US-AR': '2015             2.7504',
-            'US-AZ': '2008             2.0908',
-            'US-CA': '2008             1.5815',
-            'US-CO': '2008             3.4315',
-            'US-CT': '2008             3.3842332',
-            'US-DC': '2012             0.3074',
-            'US-DE': '2008             0.4046',
-            'US-FL': '2008             2.01264',
-            'US-GA': '2008             2.6054223',
-            'US-IA': '2008             1.3366',
-            'US-ID': '2014             0.1995',
-            'US-IL': '2008             1.9284667',
-            'US-IN': '2008             2.7633',
-            'US-KS': '2009             1.2626',
-            'US-KY': '2008             2.7811418',
-            'US-LA': '2011             1.2498',
-            'US-MA': '2008             4.6719',
-            'US-MD': '2008             2.68915',
-            'US-ME': '2008             2.3683',
-            'US-MI': '2008             2.227',
-            'US-MN': '2008             5.9656',
-            'US-MO': '2008             -0.1533',
-            'US-MS': '2008             0.0235',
-            'US-MT': '2010             3.3529',
-            'US-NC': '2008             1.52965',
-            'US-NE': '2010             0.6989',
-            'US-NH': '2009             2.5998',
-            'US-NJ': '2010             0.7804',
-            'US-NM': '2008             1.854',
-            'US-NV': '2009             0.814',
-            'US-NY': '2008             2.753996',
-            'US-OH': '2008             1.9486818',
-            'US-OK': '2008             3.2817',
-            'US-OR': '2008             6.4453',
-            'US-PA': '2008             1.1591333',
-            'US-RI': '2018             2.0335',
-            'US-SC': '2008             2.571511',
-            'US-TN': '2008             2.2409',
-            'US-TX': '2008             1.7769715',
-            'US-UT': '2008             0.70195',
-            'US-VA': '2008             4.1011',
-            'US-VT': '2014             3.3099',
-            'US-WA': '2008             4.6292',
-            'US-WI': '2008             3.0446334',
-            'US-WY': '2016             -0.2263' }
-      $('#us-map').vectorMap({
-          map: 'us_aea',
-          series: {
-                regions: [{
-                values: GE_testing_data,
-                scale: ['#C8EEFF', '#0071A4'],
-                normalizeFunction: 'polynomial'
-                }]
-            },
-            onRegionTipShow: function(e, el, code){
-                el.html(el.html()+' (employee sentiment : '+GE_testing_data[code]+')');
-            }
-        });
-    });
+    // $(function(){
+      //   var GE_testing_data = { 'US-AL': '2009             2.7129',
+      //       'US-AR': '2015             2.7504',
+      //       'US-AZ': '2008             2.0908',
+      //       'US-CA': '2008             1.5815',
+      //       'US-CO': '2008             3.4315',
+      //       'US-CT': '2008             3.3842332',
+      //       'US-DC': '2012             0.3074',
+      //       'US-DE': '2008             0.4046',
+      //       'US-FL': '2008             2.01264',
+      //       'US-GA': '2008             2.6054223',
+      //       'US-IA': '2008             1.3366',
+      //       'US-ID': '2014             0.1995',
+      //       'US-IL': '2008             1.9284667',
+      //       'US-IN': '2008             2.7633',
+      //       'US-KS': '2009             1.2626',
+      //       'US-KY': '2008             2.7811418',
+      //       'US-LA': '2011             1.2498',
+      //       'US-MA': '2008             4.6719',
+      //       'US-MD': '2008             2.68915',
+      //       'US-ME': '2008             2.3683',
+      //       'US-MI': '2008             2.227',
+      //       'US-MN': '2008             5.9656',
+      //       'US-MO': '2008             -0.1533',
+      //       'US-MS': '2008             0.0235',
+      //       'US-MT': '2010             3.3529',
+      //       'US-NC': '2008             1.52965',
+      //       'US-NE': '2010             0.6989',
+      //       'US-NH': '2009             2.5998',
+      //       'US-NJ': '2010             0.7804',
+      //       'US-NM': '2008             1.854',
+      //       'US-NV': '2009             0.814',
+      //       'US-NY': '2008             2.753996',
+      //       'US-OH': '2008             1.9486818',
+      //       'US-OK': '2008             3.2817',
+      //       'US-OR': '2008             6.4453',
+      //       'US-PA': '2008             1.1591333',
+      //       'US-RI': '2018             2.0335',
+      //       'US-SC': '2008             2.571511',
+      //       'US-TN': '2008             2.2409',
+      //       'US-TX': '2008             1.7769715',
+      //       'US-UT': '2008             0.70195',
+      //       'US-VA': '2008             4.1011',
+      //       'US-VT': '2014             3.3099',
+      //       'US-WA': '2008             4.6292',
+      //       'US-WI': '2008             3.0446334',
+      //       'US-WY': '2016             -0.2263' }
+      // $('#us-map').vectorMap({
+      //     map: 'us_aea',
+      //     series: {
+      //           regions: [{
+      //           values: GE_testing_data,
+      //           scale: ['#C8EEFF', '#0071A4'],
+      //           normalizeFunction: 'polynomial'
+      //           }]
+      //       },
+      //       onRegionTipShow: function(e, el, code){
+      //           el.html(el.html()+' (employee sentiment : '+GE_testing_data[code]+')');
+      //       }
+      //   });
+
+      //trying to make a county level map.
+      var amchart_map = am4core.create("chartdiv", am4maps.MapChart);
+      amchart_map.geodata = am4geodata_region_usa_usaCountiesLow;
+      // amchart_map.geodata = am4geodata_region_usa_caLow;
+      // amchart_map.projection = new am4maps.projections.Miller();
+      var polygonSeries = amchart_map.series.push(new am4maps.MapPolygonSeries());
+      polygonSeries.useGeodata = true;
+      polygonSeries.mapPolygons.template.events.on("hit", function(ev) {
+        chart.zoomToMapObject(ev.target);
+      });
+
+    // });
   </script>
 </body>
 </html>
