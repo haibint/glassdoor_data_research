@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>State Level Sentiment</title>
+  <link rel="stylesheet" href="css/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery-jvectormap-2.0.3.min.js"></script>
+  <script src="js/jquery-jvectormap-us-aea.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/state_summary.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <h3>Overall Sentiment Accross States</h3>
+        <div id="us-map" style="max-width: 600px; height: 400px"></div>
+        <div>
+            <i>Select Year of Data source</i>
+            <select id="soflow">
+                <!-- This method is nice because it doesn't require extra div tags, but it also doesn't retain the style across all browsers. -->
+                <option>2018</option>
+                <option>2017</option>
+                <option>2016</option>
+            </select>
+        </div>
+        
+    </div>
+  
+    <!-- <div id="chartdiv" style="width: 600px; height: 400px"></div> -->
+    <script>
+        $(function(){
+            $.getJSON('./json/2018_state_average.json', function(data) {display_map(data)});
+
+            function display_map(data) {
+                console.log("function called.")
+                $('#us-map').vectorMap({
+                    map: 'us_aea',
+                    series: {
+                        regions: [{
+                        values: data,
+                        scale: ['#C8EEFF', '#0071A4'],
+                        normalizeFunction: 'polynomial'
+                        }]
+                    },
+                    onRegionTipShow: function(e, el, code){
+                        el.html(el.html()+' (employee sentiment : '+ data[code]+')');
+                    }
+                });
+            }
+            
+            document.getElementById("soflow").addEventListener('change', function(ev){
+                    ev.preventDefault(); console.log(ev.target.value);
+                    document.getElementById("us-map").innerHTML = null;
+                    $.getJSON('./json/'+ ev.target.value +'_state_average.json', function(data) {display_map(data)});
+                });
+
+        });
+
+        
+
+
+  </script>
+</body>
+</html>
