@@ -50,4 +50,6 @@ http://t-redactyl.io/blog/2017/04/using-vader-to-handle-sentiment-analysis-with-
             9540    s
 
             the matched counties is documented in matched_counties_with_code.tsv
-### 2.2 Problem, the counties that can actually be mapped to county codes we have now are only 624.
+### 2.2 Problem:
+### 2.3 Potential inprovement:
+        task2/semi_final.tsv has 9000+ rows could not matched up with county code, this potentially need manual matching.

@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>County Sentiment Heat Map</title>
+  <link href="./css/county_level_sentiment.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div id="container" style="height: 520px; width: 800px; margin: 0 auto; text-align:center; line-height: 520px">
+      Downloading map...
+    </div>
+  
+    <div class="slidecontainer container pt-5">
+      <input type="range" min="2008" max="2019" value="2018" class="slider" id="year_slider">
+      <i>Change year of data:</i><i id="current_year">2018</i>
+    </div>
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/data.js"></script>
+<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/us/us-all-all.js"></script>
+<script>
+
+
+  var slider = document.getElementById("year_slider");
+
+  create_map("2018", "container");
+
+  // Update the current slider value (each time you drag the slider handle)
+  slider.oninput = function() {
+    // console.log(this.value);
+    // console.log(typeof(this.value))
+    document.getElementById("current_year").innerHTML = this.value;
+    create_map(this.value, "container");
+  }
+
+  // create_map("2015", "container");
+
+
+function create_map(year, container) {
+  $.getJSON(
+    './json/county_level_sentiment_'+year+'.json',
+    function (data) {
+
+      /**
+       * Data parsed from http://www.bls.gov/lau/#tables
+       *
+       * 1. Go to http://www.bls.gov/lau/laucntycur14.txt (or similar, updated
+       *  datasets)
+       * 2. In the Chrome Developer tools console, run this code:
+       *  copy(JSON.stringify(document.body.innerHTML.split('
+  ').filter(function (s) { return s.indexOf('<PUT DATE HERE IN FORMAT e.g. Feb-14>') !== -1; }).map(function (row) { row = row.split('|'); return { code: 'us-' + row[3].trim().slice(-2).toLowerCase() + '-' + row[2].trim(), name: row[3].trim(), value: parseFloat(row[8]) }; })))
+      * 3. The data is now on your clipboard, paste it below
+      * 4. Verify that the length of the data is reasonable, about 3300
+      *  counties.
+      */
+
+      var countiesMap = Highcharts.geojson(
+          Highcharts.maps['countries/us/us-all-all']
+        ),
+        // Extract the line paths from the GeoJSON
+        lines = Highcharts.geojson(
+          Highcharts.maps['countries/us/us-all-all'], 'mapline'
+        ),
+        // Filter out the state borders and separator lines, we want these
+        // in separate series
+        borderLines = Highcharts.grep(lines, function (l) {
+          return l.properties['hc-group'] === '__border_lines__';
+        }),
+        separatorLines = Highcharts.grep(lines, function (l) {
+          return l.properties['hc-group'] === '__separator_lines__';
+        });
+
+      // Add state acronym for tooltip
+      Highcharts.each(countiesMap, function (mapPoint) {
+        mapPoint.name = mapPoint.name + ', ' +
+          mapPoint.properties['hc-key'].substr(3, 2);
+      });
+
+      document.getElementById(container).innerHTML = 'Rendering map...';
+
+      // Create the map
+      setTimeout(function () { // Otherwise innerHTML doesn't update
+        Highcharts.mapChart(container, {
+          chart: {
+            borderWidth: 1,
+            marginRight: 20 // for the legend
+          },
+
+          title: {
+            text: 'US Counties employee average sentiment, ' + year
+          },
+
+          legend: {
+            layout: 'vertical',
+            align: 'right',
+            floating: true,
+            backgroundColor: (
+              Highcharts.theme &&
+              Highcharts.theme.legendBackgroundColor
+            ) || 'rgba(255, 255, 255, 0.85)'
+          },
+
+          mapNavigation: {
+            enabled: true
+          },
+
+          colorAxis: {
+            min: -5,
+            max: 5,
+            tickInterval: 5,
+            stops: [[0, '#ef1800'], [0.3, '#f7402b'], [0.7, '#2ca6f7'], [1, '#003df7']],
+            // gridLineColor:"#e6e6e6",
+            // minColor: "#f7402b",
+            // maxColor: "#2ca6f7",
+            labels: {
+              format: '{value}'
+            }
+          },
+
+          plotOptions: {
+            mapline: {
+              showInLegend: false,
+              enableMouseTracking: false
+            }
+          },
+
+          series: [{
+            mapData: countiesMap,
+            data: data,
+            joinBy: ['hc-key', 'code'],
+            name: 'Average Sentiment',
+            tooltip: {
+              valueSuffix: ''
+            },
+            borderWidth: 0.5,
+            states: {
+              hover: {
+                color: '#a4edba'
+              }
+            },
+            shadow: false
+          }, {
+            type: 'mapline',
+            name: 'State borders',
+            data: borderLines,
+            color: 'white',
+            shadow: false
+          }, {
+            type: 'mapline',
+            name: 'Separator',
+            data: separatorLines,
+            color: 'gray',
+            shadow: false
+          }]
+        });
+      }, 0);
+    }
+  );
+}
+
+
+</script>

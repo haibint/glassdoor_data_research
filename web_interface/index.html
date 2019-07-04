@@ -1,98 +1,195 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>jVectorMap demo</title>
-  <!-- <link rel="stylesheet" href="css/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/> -->
-  <!-- <script src="js/jquery.js"></script> -->
-  <!-- <script src="js/jquery-jvectormap-2.0.3.min.js"></script>
-  <script src="js/jquery-jvectormap-us-aea.js"></script> -->
-
-  <!-- The following imports are for amchars, which provides county level map within the package itself -->
-  <script src="https://www.amcharts.com/lib/4/core.js"></script>
-  <script src="https://www.amcharts.com/lib/4/maps.js"></script>
-  <!-- <script src="https://www.amcharts.com/lib/4/geodata/region/usa/usaCountiesLow.js"></script> -->
-  <!-- <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script> -->
-  <script src="https://www.amcharts.com/lib/4/geodata/region/usa/caLow.js"></script>
-  <script src="https://www.amcharts.com/lib/4/geodata/region/usa/usaCountiesLow.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Glassdoor Economic Insights</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+            }
+        }
+    </style>
+    <link href="https://getbootstrap.com/docs/4.3/examples/carousel/carousel.css" rel="stylesheet">
 </head>
 <body>
-  <!-- <div id="us-map" style="width: 600px; height: 400px"></div> -->
-  <!-- <iframe src="https://www.google.co.uk/maps/d/embed?mid=10K_TEHSpOE7a3FqN4r651Mx7_CwWvCmp" width="640" height="480"></iframe> -->
-  <div id="chartdiv" style="width: 600px; height: 400px"></div>
-  <script>
-    // $(function(){
-      //   var GE_testing_data = { 'US-AL': '2009             2.7129',
-      //       'US-AR': '2015             2.7504',
-      //       'US-AZ': '2008             2.0908',
-      //       'US-CA': '2008             1.5815',
-      //       'US-CO': '2008             3.4315',
-      //       'US-CT': '2008             3.3842332',
-      //       'US-DC': '2012             0.3074',
-      //       'US-DE': '2008             0.4046',
-      //       'US-FL': '2008             2.01264',
-      //       'US-GA': '2008             2.6054223',
-      //       'US-IA': '2008             1.3366',
-      //       'US-ID': '2014             0.1995',
-      //       'US-IL': '2008             1.9284667',
-      //       'US-IN': '2008             2.7633',
-      //       'US-KS': '2009             1.2626',
-      //       'US-KY': '2008             2.7811418',
-      //       'US-LA': '2011             1.2498',
-      //       'US-MA': '2008             4.6719',
-      //       'US-MD': '2008             2.68915',
-      //       'US-ME': '2008             2.3683',
-      //       'US-MI': '2008             2.227',
-      //       'US-MN': '2008             5.9656',
-      //       'US-MO': '2008             -0.1533',
-      //       'US-MS': '2008             0.0235',
-      //       'US-MT': '2010             3.3529',
-      //       'US-NC': '2008             1.52965',
-      //       'US-NE': '2010             0.6989',
-      //       'US-NH': '2009             2.5998',
-      //       'US-NJ': '2010             0.7804',
-      //       'US-NM': '2008             1.854',
-      //       'US-NV': '2009             0.814',
-      //       'US-NY': '2008             2.753996',
-      //       'US-OH': '2008             1.9486818',
-      //       'US-OK': '2008             3.2817',
-      //       'US-OR': '2008             6.4453',
-      //       'US-PA': '2008             1.1591333',
-      //       'US-RI': '2018             2.0335',
-      //       'US-SC': '2008             2.571511',
-      //       'US-TN': '2008             2.2409',
-      //       'US-TX': '2008             1.7769715',
-      //       'US-UT': '2008             0.70195',
-      //       'US-VA': '2008             4.1011',
-      //       'US-VT': '2014             3.3099',
-      //       'US-WA': '2008             4.6292',
-      //       'US-WI': '2008             3.0446334',
-      //       'US-WY': '2016             -0.2263' }
-      // $('#us-map').vectorMap({
-      //     map: 'us_aea',
-      //     series: {
-      //           regions: [{
-      //           values: GE_testing_data,
-      //           scale: ['#C8EEFF', '#0071A4'],
-      //           normalizeFunction: 'polynomial'
-      //           }]
-      //       },
-      //       onRegionTipShow: function(e, el, code){
-      //           el.html(el.html()+' (employee sentiment : '+GE_testing_data[code]+')');
-      //       }
-      //   });
-
-      //trying to make a county level map.
-      var amchart_map = am4core.create("chartdiv", am4maps.MapChart);
-      amchart_map.geodata = am4geodata_region_usa_usaCountiesLow;
-      // amchart_map.geodata = am4geodata_region_usa_caLow;
-      // amchart_map.projection = new am4maps.projections.Miller();
-      var polygonSeries = amchart_map.series.push(new am4maps.MapPolygonSeries());
-      polygonSeries.useGeodata = true;
-      polygonSeries.mapPolygons.template.events.on("hit", function(ev) {
-        chart.zoomToMapObject(ev.target);
-      });
-
-    // });
-  </script>
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <a class="navbar-brand" href="#">Glassdoor Economic Insights</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <!-- <li class="nav-item">
+                    <a class="nav-link" href="./state_level_map.html">Employee Sentiment Study</a>
+                    </li> -->
+                    <li class="nav-item">
+                    <a class="nav-link disabled" href="#">More Studies Comming Soon</a>
+                    </li>
+                </ul>
+                <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                </div>
+            </nav>
+            </header>
+            
+            <main role="main">
+            
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <!-- line commented out below is a gray square placeholder -->
+                    <!-- <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect width="100%" height="100%" fill="#777"/></svg> -->
+                    <img class="bd-placeholder-img" style="display: block; max-width:1920px; max-height:960px; width: auto;" width="100%" height="100%" src="./images/sunrise_1920x960.jpg" alt="">
+                    <div class="container">
+                    <div class="carousel-caption text-left">
+                        <h1>Economic Data On Maps</h1>
+                        <p>Research ideas inspired by data, all visualized.</p>
+                        <!-- <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p> -->
+                    </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect width="100%" height="100%" fill="#777"/></svg>
+                    <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Another example headline.</h1>
+                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <!-- <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p> -->
+                    </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect width="100%" height="100%" fill="#777"/></svg>
+                    <div class="container">
+                    <div class="carousel-caption text-right">
+                        <h1>One more for good measure.</h1>
+                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <!-- <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p> -->
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+                </a>
+            </div>
+            
+            
+            <!-- Marketing messaging and featurettes
+            ================================================== -->
+            <!-- Wrap the rest of the page in another container to center all the content. -->
+            
+            <div class="container marketing">
+            
+                <!-- Three columns of text below the carousel -->
+                <div class="row">
+                <div class="col-lg-4">
+                    <!-- <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg> -->
+                    <img class="bd-placeholder-img" width="218" height="140" src="./images/us-county-sentiments-2015.jpg" alt="">
+                    <h2>US County Level Employee Sentiment</h2>
+                    <p>See the patent of US Employee Average Sentiment at county level with our interactive map.</p>
+                    <p><a class="btn btn-success" href="./county_level_sentiment.html" role="button">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+                    <h2>US Sentiment Analysis By State</h2>
+                    <p>See the sentiment variabilities and changes acroos states and time periods. &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                    <p><a class="btn btn-success" href="./state_summary.html" role="button">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+                    <h2>Company Specified Time Series</h2>
+                    <p>Looking at detail employee sentiment data of individual companies to generate meaningful insights.</p>
+                    <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+                </div><!-- /.row -->
+            
+            
+                <!-- START THE FEATURETTES -->
+            
+                <hr class="featurette-divider">
+            
+                <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
+                    <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                </div>
+                <div class="col-md-5">
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                </div>
+                </div>
+            
+                <hr class="featurette-divider">
+            
+                <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
+                    <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                </div>
+                <div class="col-md-5 order-md-1">
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                </div>
+                </div>
+            
+                <hr class="featurette-divider">
+            
+                <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+                    <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                </div>
+                <div class="col-md-5">
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+                </div>
+                </div>
+            
+                <hr class="featurette-divider">
+            
+                <!-- /END THE FEATURETTES -->
+            
+            </div><!-- /.container -->
+            
+            
+            <!-- FOOTER -->
+            <footer class="container">
+                <p class="float-right"><a href="#">Back to top</a></p>
+                <p>&copy; Teaching and Development Grant, 2019, Lingnan University. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+            </footer>
+        </main>
+    
+    <!-- bootstrap files -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- bootstrap files -->
 </body>
 </html>
