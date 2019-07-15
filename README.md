@@ -32,8 +32,8 @@ http://t-redactyl.io/blog/2017/04/using-vader-to-handle-sentiment-analysis-with-
 ### 1.1 Progress:
 ####    1.1.1 we have state level map presented on index.html with data source embeded in JS code on the same file
 ### 1.2 Problem to be solved:
-####    1.2.1 add city information to the data source
-####    1.2.2 find a way to have city level map, we have only state level map now.
+####    1.2.1 add city information to the data source (solved)
+####    1.2.2 find a way to have city level map, we have only state level map now. (solved)
 ## 2. US county level map for net sentiment for all company aggregated
 ### 2.1 Progerss:
 ####    2.1.1 we alread have the county level map, the geojson has 3219 rows(counties) and 3 columns (code, name value)
@@ -50,6 +50,13 @@ http://t-redactyl.io/blog/2017/04/using-vader-to-handle-sentiment-analysis-with-
             9540    s
 
             the matched counties is documented in matched_counties_with_code.tsv
-### 2.2 Problem:
-### 2.3 Potential inprovement:
-        task2/semi_final.tsv has 9000+ rows could not matched up with county code, this potentially need manual matching.
+### 2.2 Problem: Solved
+
+## 3. Bank complaint data mapping 
+### July 9th, mapping zipcode into counties, the data is processed into chunks of 1000 rows and is put under task_bank_complaints/data/chunked
+
+## 4. Data Scrapying Tutorial
+1. background knowledge required and settting up environment.
+    -   requests library
+2. 
+
