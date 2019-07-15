@@ -1,0 +1,16 @@
+body {
+    padding-top: 56px;
+}
+
+code {
+    background-color: #eee;
+    border-radius: 3px;
+    font-family: courier, monospace;
+    margin: 20px;
+    color: black;
+}
+
+.code_block {
+    background-color: #eee;
+    padding-bottom: 10px;
+}

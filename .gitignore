@@ -1,4 +1,4 @@
-/data
+/glassdoor_data
 .DS_Store
 note_to_myself.md
 /stata_files
@@ -6,3 +6,6 @@ note_to_myself.md
 /temp_data
 /task2/county_mapper_v2.py
 /task2/data
+/task_bank_complaints/data
+/task_bank_complaints/complaints_map_creator.py
+/expenses_claim

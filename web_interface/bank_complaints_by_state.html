@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>State Level Sentiment</title>
+  <title>State Level Bank Complaints</title>
   <link rel="stylesheet" href="css/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
   <script src="js/jquery.js"></script>
   <script src="js/jquery-jvectormap-2.0.3.min.js"></script>
@@ -67,15 +67,14 @@
         <!-- <img class="img-fluid rounded" src="http://placehold.it/900x300" alt=""> -->
         <div class="container">
             <div id="us-map" style="max-width: 600px; height: 400px"></div>
-            <div>
+            <!-- <div>
                 <i>Select Year of Data source</i>
                 <select id="soflow">
-                    <!-- This method is nice because it doesn't require extra div tags, but it also doesn't retain the style across all browsers. -->
                     <option>2018</option>
                     <option>2017</option>
                     <option>2016</option>
                 </select>
-            </div>
+            </div> -->
         </div>
 
         <hr>
@@ -229,7 +228,7 @@
     <!-- <div id="chartdiv" style="width: 600px; height: 400px"></div> -->
     <script>
         $(function(){
-            $.getJSON('./json/2018_state_average.json', function(data) {display_map(data)});
+            $.getJSON('./json/bank_complaints_number_by_state.json', function(data) {display_map(data)});
 
             function display_map(data) {
                 console.log("function called.")
@@ -239,14 +238,15 @@
                     series: {
                         regions: [{
                         values: data,
-                        scale: ['#C8EEFF', '#0071A4'],
+                        scale: ['#FFFFFF', '#ff0000'],
                         normalizeFunction: 'polynomial'
                         }]
                     },
                     onRegionTipShow: function(e, el, code){
-                        el.html(el.html()+' (employee sentiment : '+ data[code]+')');
-                    }
+                        el.html(el.html()+' (Bank Complaints : '+ data[code]+')');
+                    },
                 });
+                $('#us-map').setBackgroundColor("rgb(255, 255, 255) transparent;")
             }
             
             document.getElementById("soflow").addEventListener('change', function(ev){
