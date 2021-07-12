@@ -18,7 +18,8 @@
             <div id="us-map" style="max-width: 600px; height: 400px"></div>
             <div>
                 <i>Select Year of Data source</i>
-                <select id="soflow">
+<!--                 <select id="soflow"> -->
+                <select id="year_option">
                     <!-- This method is nice because it doesn't require extra div tags, but it also doesn't retain the style across all browsers. -->
                     <option>2018</option>
                     <option>2017</option>
@@ -51,7 +52,7 @@
                 });
             }
             
-            document.getElementById("soflow").addEventListener('change', function(ev){
+            document.getElementById("year_option").addEventListener('change', function(ev){
                     ev.preventDefault(); console.log(ev.target.value);
                     document.getElementById("us-map").innerHTML = null;
                     $.getJSON('./json/'+ ev.target.value +'_state_average.json', function(data) {display_map(data)});
